@@ -149,7 +149,9 @@ router.post("/upload", isLoggedIn, async function (req, res, next) {
             res.send(err.message);
         }
         if (req.file) {
-            fs.unlinkSync("./public/images/" + req.user.avatar);
+            if (req.user.avatar !== "default.png") {
+                fs.unlinkSync("./public/images/" + req.user.avatar);
+            }
             req.user.avatar = req.file.filename;
             req.user
                 .save()
